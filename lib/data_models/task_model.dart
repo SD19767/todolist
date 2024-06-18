@@ -1,4 +1,4 @@
-import 'package:flutter_learn_getx/dataModel/TaskStatus.dart';
+import 'package:flutter_learn_getx/data_models/task_status.dart';
 
 class TaskModel {
   int id;
