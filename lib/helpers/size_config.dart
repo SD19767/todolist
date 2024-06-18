@@ -25,4 +25,5 @@ class SizeConfig {
   static double getBigTitleSize() => screenHeight * 0.08;
   static double getTitleSize() => screenHeight * 0.04;
   static double getEdgeInsets() => screenHeight * 0.1;
+  static double textFieldWidth() => screenWidth * 0.5;
 }
