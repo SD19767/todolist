@@ -21,10 +21,12 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('TODO List Demo App',
-        style: TextStyle(fontSize: bigTitleSize, fontWeight: FontWeight.w500),),
-        SizedBox(height: 16),
-        
+            Text(
+              'TODO List Demo App2222',
+              style: TextStyle(
+                  fontSize: bigTitleSize, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 16),
             Container(
               color: Color(0xFFFDF6E3),
               child: Text(
@@ -40,10 +42,17 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     // Add task logic here
                   },
-                  style:OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),)
-                ),
-                  child: Text('Add Task', style: TextStyle(fontSize: titleSize)),
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: const BorderSide(
+                        width: 1, color: Colors.lightBlueAccent),
+                  ),
+                  child: Text('Add Task',
+                      style: TextStyle(
+                          fontSize: titleSize, 
+                          color: Colors.lightBlueAccent)),
                 ),
               ],
             ),
