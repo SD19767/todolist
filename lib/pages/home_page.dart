@@ -33,11 +33,19 @@ class HomePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-            OutlinedButton(
-              onPressed: () {
-                // Add task logic here
-              },
-              child: Text('Add Task', style: TextStyle(fontSize: titleSize)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    // Add task logic here
+                  },
+                  style:OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),)
+                ),
+                  child: Text('Add Task', style: TextStyle(fontSize: titleSize)),
+                ),
+              ],
             ),
             SizedBox(height: 16),
           ],
