@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
+import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
 import 'package:flutter_learn_getx/services/task_service.dart';
 import 'package:get/get.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
@@ -33,22 +34,28 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                OutlinedButton(
+                 CustomOutlinedButton(
                   onPressed: () {
                     // Add task logic here
                   },
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    side: const BorderSide(
-                        width: 1, color: Colors.lightBlueAccent),
-                  ),
-                  child: Text('Add Task',
-                      style: TextStyle(
-                          fontSize: SizeConfig.getTitleSize(), 
-                          color: Colors.lightBlueAccent)),
-                ),
+                  text: 'Add Task',
+                  )
+                // OutlinedButton(
+                //   onPressed: () {
+                //     // Add task logic here
+                //   },
+                //   style: OutlinedButton.styleFrom(
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(10),
+                //     ),
+                //     side: const BorderSide(
+                //         width: 1, color: Colors.lightBlueAccent),
+                //   ),
+                //   child: Text('Add Task',
+                //       style: TextStyle(
+                //           fontSize: SizeConfig.getTitleSize(), 
+                //           color: Colors.lightBlueAccent)),
+                // ),
               ],
             ),
             SizedBox(height: 16),
