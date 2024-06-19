@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
-import 'package:flutter_learn_getx/data_models/task_status.dart';
-import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
-import 'package:flutter_learn_getx/pages/edit_page.dart';
-import 'package:flutter_learn_getx/services/task_service.dart';
 import 'package:get/get.dart';
+import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
+import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -37,14 +34,7 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomOutlinedButton(
-                  onPressed: () {
-                    Get.to(() => EditPage(
-                        currentStatus: TaskStatus.todo,
-                        id: 0,
-                        taskName: '',
-                        onSave: () {},
-                        onCancel: () {}));
-                  },
+                  onPressed: homePageController.triggerAddTask,
                   text: 'Add Task',
                 )
               ],

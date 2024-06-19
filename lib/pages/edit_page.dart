@@ -6,19 +6,11 @@ import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
 import 'package:get/get.dart';
 
 class EditPage extends StatelessWidget {
-  TaskStatus currentStatus;
-  int id;
-  String taskName;
-  final VoidCallback onSave;
-  final VoidCallback onCancel;
-
-  EditPage(
-      {super.key,
-      required this.currentStatus,
-      required this.id,
-      required this.taskName,
-      required this.onSave,
-      required this.onCancel});
+  TaskStatus currentStatus = TaskStatus.todo;
+  int id = 0;
+  String taskName = '';
+  VoidCallback? onSave;
+  VoidCallback? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -103,14 +95,18 @@ class EditPage extends StatelessWidget {
                 children: [
                   CustomOutlinedButton(
                     onPressed: () {
-                      onCancel();
+                      if (onCancel != null) {
+                        onCancel!();
+                      } 
                     },
                     text: 'cancel',
                   ),
                   const Spacer(), // Add some space between buttons
                   CustomOutlinedButton(
                     onPressed: () {
-                      onSave();
+                      if (onSave != null) {
+                        onSave!();
+                      }
                     },
                     text: 'save',
                   ),
