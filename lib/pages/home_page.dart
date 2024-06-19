@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
+import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
+import 'package:flutter_learn_getx/pages/edit_page.dart';
 import 'package:flutter_learn_getx/services/task_service.dart';
 import 'package:get/get.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
-
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,7 +21,8 @@ class HomePage extends StatelessWidget {
             Text(
               'TODO List Demo App2222',
               style: TextStyle(
-                  fontSize: SizeConfig.getBigTitleSize(), fontWeight: FontWeight.w500),
+                  fontSize: SizeConfig.getBigTitleSize(),
+                  fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 16),
             Container(
@@ -34,28 +36,17 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                 CustomOutlinedButton(
+                CustomOutlinedButton(
                   onPressed: () {
-                    // Add task logic here
+                    Get.to(() => EditPage(
+                        currentStatus: TaskStatus.todo,
+                        id: 0,
+                        taskName: '',
+                        onSave: () {},
+                        onCancel: () {}));
                   },
                   text: 'Add Task',
-                  )
-                // OutlinedButton(
-                //   onPressed: () {
-                //     // Add task logic here
-                //   },
-                //   style: OutlinedButton.styleFrom(
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(10),
-                //     ),
-                //     side: const BorderSide(
-                //         width: 1, color: Colors.lightBlueAccent),
-                //   ),
-                //   child: Text('Add Task',
-                //       style: TextStyle(
-                //           fontSize: SizeConfig.getTitleSize(), 
-                //           color: Colors.lightBlueAccent)),
-                // ),
+                )
               ],
             ),
             SizedBox(height: 16),

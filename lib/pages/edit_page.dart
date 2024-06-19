@@ -44,7 +44,7 @@ class EditPage extends StatelessWidget {
               Row(
                 children: [
                   const Text('#'),
-                  Obx(() => Text('$id')),
+                  Text('$id'),
                   const Spacer(),
                 ],
               ),
@@ -74,23 +74,21 @@ class EditPage extends StatelessWidget {
                       child: InputDecorator(
                         decoration:
                             inputDecoration.copyWith(labelText: 'Status'),
-                        child: Obx(
-                          () => DropdownButtonHideUnderline(
-                            child: DropdownButton<TaskStatus>(
-                              isExpanded: true,
-                              value: currentStatus,
-                              onChanged: (TaskStatus? newValue) {
-                                if (newValue != null) {
-                                  currentStatus = newValue;
-                                }
-                              },
-                              items: TaskStatus.values.map((TaskStatus status) {
-                                return DropdownMenuItem<TaskStatus>(
-                                  value: status,
-                                  child: Text(status.description),
-                                );
-                              }).toList(),
-                            ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<TaskStatus>(
+                            isExpanded: true,
+                            value: currentStatus,
+                            onChanged: (TaskStatus? newValue) {
+                              if (newValue != null) {
+                                currentStatus = newValue;
+                              }
+                            },
+                            items: TaskStatus.values.map((TaskStatus status) {
+                              return DropdownMenuItem<TaskStatus>(
+                                value: status,
+                                child: Text(status.description),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ),
