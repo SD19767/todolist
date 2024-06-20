@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn_getx/controllers/edit_page_controller.dart';
 import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
-import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
+import 'package:flutter_learn_getx/services/task_service.dart';
+import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 import 'package:get/get.dart';
 
-class EditPage extends StatelessWidget {
-  TaskStatus currentStatus = TaskStatus.todo;
-  int id = 0;
-  String taskName = '';
-  VoidCallback? onSave;
-  VoidCallback? onCancel;
+enum EditPageType { edit, add }
 
+extension EditPageTypeExtension on EditPageType {
+  String get descriotion {
+    switch (this) {
+      case EditPageType.edit:
+        return 'Edit Task';
+      case EditPageType.add:
+        return 'Add Task';
+    }
+  }
+}
+
+class EditPage extends StatelessWidget {
+  final EditPageController editPageController = Get.find<EditPageController>();
   @override
   Widget build(BuildContext context) {
     InputDecoration inputDecoration = const InputDecoration(
       labelText: 'Task name',
       border: OutlineInputBorder(),
-      contentPadding: EdgeInsets.symmetric(
-          vertical: 16.0,
-          horizontal: 8.0), // 確保 TextField 和 DropdownButton 高度一致
+      contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Page'),
+        title: Text(editPageController.editType.value.descriotion),
       ),
       body: Padding(
         padding: EdgeInsets.all(SizeConfig.getEdgeInsets()),
@@ -33,89 +41,141 @@ class EditPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Text('#'),
-                  Text('$id'),
-                  const Spacer(),
-                ],
-              ),
+              IdText(editPageController: editPageController),
               SizedBox(height: SizeConfig.getVerticalSpacer()),
-              SizedBox(
-                height: SizeConfig.getVerticalSpacer(),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration:
-                            inputDecoration.copyWith(labelText: 'Task name'),
-                        onChanged: (text) {
-                          taskName = text;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              TaskNamingTextField(
+                  editPageController: editPageController,
+                  inputDecoration: inputDecoration),
               SizedBox(height: SizeConfig.getVerticalSpacer()),
-              SizedBox(
-                height: SizeConfig.getVerticalSpacer(),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: InputDecorator(
-                        decoration:
-                            inputDecoration.copyWith(labelText: 'Status'),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<TaskStatus>(
-                            isExpanded: true,
-                            value: currentStatus,
-                            onChanged: (TaskStatus? newValue) {
-                              if (newValue != null) {
-                                currentStatus = newValue;
-                              }
-                            },
-                            items: TaskStatus.values.map((TaskStatus status) {
-                              return DropdownMenuItem<TaskStatus>(
-                                value: status,
-                                child: Text(status.description),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              AddTaskStatusBox(
+                  inputDecoration: inputDecoration,
+                  editPageController: editPageController),
               SizedBox(height: SizeConfig.getVerticalSpacer()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomOutlinedButton(
-                    onPressed: () {
-                      if (onCancel != null) {
-                        onCancel!();
-                      } 
-                    },
-                    text: 'cancel',
-                  ),
-                  const Spacer(), // Add some space between buttons
-                  CustomOutlinedButton(
-                    onPressed: () {
-                      if (onSave != null) {
-                        onSave!();
-                      }
-                    },
-                    text: 'save',
-                  ),
-                ],
-              ),
+              ButtonGroup(editPageController: editPageController),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class IdText extends StatelessWidget {
+  const IdText({
+    super.key,
+    required this.editPageController,
+  });
+
+  final EditPageController editPageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const Text('#'),
+        Obx(() => Text('${editPageController.task.value.id}')),
+        const Spacer(),
+      ],
+    );
+  }
+}
+
+class TaskNamingTextField extends StatelessWidget {
+  const TaskNamingTextField({
+    super.key,
+    required this.editPageController,
+    required this.inputDecoration,
+  });
+
+  final EditPageController editPageController;
+  final InputDecoration inputDecoration;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: SizeConfig.getVerticalSpacer(),
+        child: SizedBox(
+          height: SizeConfig.getVerticalSpacer(),
+          child: TextField(
+            controller: editPageController.nameController,
+            decoration: inputDecoration,
+          ),
+        )
+        );
+  }
+}
+
+class ButtonGroup extends StatelessWidget {
+  const ButtonGroup({
+    super.key,
+    required this.editPageController,
+  });
+
+  final EditPageController editPageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        CustomOutlinedButton(
+          onPressed: () {
+            editPageController.onCancel();
+          },
+          text: 'cancel',
+        ),
+        const Spacer(),
+        CustomOutlinedButton(
+          onPressed: () {
+            editPageController.onSave();
+          },
+          text: 'save',
+        ),
+      ],
+    );
+  }
+}
+
+//AddTaskStatusBox
+class AddTaskStatusBox extends StatelessWidget {
+  const AddTaskStatusBox({
+    super.key,
+    required this.inputDecoration,
+    required this.editPageController,
+  });
+
+  final InputDecoration inputDecoration;
+  final EditPageController editPageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: SizeConfig.getVerticalSpacer(),
+      child: Obx(() {
+        return InputDecorator(
+          decoration: inputDecoration.copyWith(labelText: 'Status'),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<TaskStatus>(
+              isExpanded: true,
+              value: editPageController.task.value.status,
+              onChanged: (TaskStatus? newValue) {
+                if (newValue != null) {
+                  editPageController.task.update((task) {
+                    task?.status = newValue;
+                  });
+                }
+              },
+              items: TaskStatus.values.map((TaskStatus status) {
+                return DropdownMenuItem<TaskStatus>(
+                  value: status,
+                  child: Text(status.description),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

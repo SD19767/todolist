@@ -1,20 +1,20 @@
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 
-class TaskModel {
+class Task {
   int id;
-  String taskName;
+  String name;
   TaskStatus status;
 
-  TaskModel({
+  Task({
     required this.id,
-    required this.taskName,
+    required this.name,
     required this.status,
   });
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) {
-    return TaskModel(
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
       id: json['id'],
-      taskName: json['taskName'],
+      name: json['taskName'],
       status: TaskStatus.values[json['status']],
     );
   }
@@ -22,7 +22,7 @@ class TaskModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'taskName': taskName,
+      'taskName': name,
       'status': status.index,
     };
   }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn_getx/widgets/task_list_view.dart';
+import 'package:flutter_learn_getx/data_models/task_model.dart';
+import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:get/get.dart';
 import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
-import 'package:flutter_learn_getx/pages/custom_outlined_button.dart';
+import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -40,6 +43,9 @@ class HomePage extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16),
+            Expanded(
+              child: TaskListView(tasks: homePageController.taskService.tasks),
+            )
           ],
         ),
       ),

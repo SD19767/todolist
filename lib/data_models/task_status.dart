@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum TaskStatus {
   todo,
   inProgress,
@@ -15,6 +17,19 @@ extension TaskStatusExtension on TaskStatus {
         return 'Complete';
       default:
         return '';
+    }
+  }
+
+    Color get statusColor {
+    switch (this) {
+      case TaskStatus.todo:
+        return Colors.grey;
+      case TaskStatus.inProgress:
+        return Colors.orange;
+      case TaskStatus.complete:
+        return Colors.green;
+      default:
+        return Colors.black;
     }
   }
 }
