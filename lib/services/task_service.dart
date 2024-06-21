@@ -25,7 +25,7 @@ class TaskService extends GetxController {
       final removeIndex = _getIndexBy(id: id);
       tasks.removeAt(removeIndex);
     } else {
-      throw IndexError.withLength();
+      throw IndexError.withLength;
     }
   }
 
