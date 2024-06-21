@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'TODO List Demo App2222',
+              'TODO List Demo App',
               style: TextStyle(
                   fontSize: SizeConfig.getBigTitleSize(),
                   fontWeight: FontWeight.w500),
