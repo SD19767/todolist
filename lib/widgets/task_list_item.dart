@@ -34,9 +34,11 @@ class TaskListItem extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
-                  onPressed: () {
-                    removeButtonOnPressed();
-                  },
+                  onPressed: task.status != TaskStatus.complete
+                      ? () {
+                          removeButtonOnPressed();
+                        }
+                      : null,
                 ),
               ],
             )

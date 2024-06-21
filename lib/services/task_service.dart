@@ -54,11 +54,13 @@ class TaskService extends GetxController {
     tasks.add(task);
   }
 
-  int _getNewID() {
+  TaskId _getNewID() {
     if (tasks.isNotEmpty) {
-      return tasks.last.id + 1;
+      int intId = int.tryParse(tasks.last.id) ?? -1;
+      intId += 1;
+      return intId.toString();
     } else {
-      return 0;
+      return '0';
     }
   }
 

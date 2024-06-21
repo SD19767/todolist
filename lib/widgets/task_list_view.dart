@@ -22,7 +22,8 @@ class TaskListView extends StatelessWidget {
                 listViewController.editButtonOnPressed(task: tasks[index]);
               },
               removeButtonOnPressed: () {
-                listViewController.removeButtonOnPressed(task: tasks[index]);
+                listViewController.removeButtonOnPressed(context,
+                    task: tasks[index]);
               },
             );
           }),

@@ -26,8 +26,8 @@ extension EditPageTypeExtension on EditPageType {
 class EditPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final id = int.tryParse(Get.parameters['id'] ?? '');
-    final editPageController = Get.put(EditPageController(id: id));
+    final editPageController =
+        Get.put(EditPageController(id: Get.parameters['id']));
     InputDecoration inputDecoration = const InputDecoration(
       labelText: 'Task name',
       border: OutlineInputBorder(),

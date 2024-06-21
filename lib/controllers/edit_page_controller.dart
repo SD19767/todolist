@@ -7,7 +7,7 @@ import 'package:flutter_learn_getx/services/task_service.dart';
 
 class EditPageController extends GetxController {
   final TaskService taskService = Get.find<TaskService>();
-  var task = Task(id: 0, name: '', status: TaskStatus.todo).obs;
+  var task = Task(id: '', name: '', status: TaskStatus.todo).obs;
   final editType = EditPageType.add.obs;
   late TextEditingController nameController;
 
