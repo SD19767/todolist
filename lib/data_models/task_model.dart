@@ -1,7 +1,10 @@
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 
+typedef TaskId = int;
+typedef Index = int;
+
 class Task {
-  int id;
+  TaskId id;
   String name;
   TaskStatus status;
 
