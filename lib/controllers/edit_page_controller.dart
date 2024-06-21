@@ -18,11 +18,6 @@ class EditPageController extends GetxController {
       addTask();
     }
     nameController = TextEditingController(text: task.value.name);
-    nameController.addListener(() {
-      task.update((task) {
-        task?.name = nameController.text;
-      });
-    });
   }
 
   @override
@@ -32,19 +27,12 @@ class EditPageController extends GetxController {
   }
 
   void onSave() {
-    // 保存邏輯
-    print('Task ID: ${task.value.id}');
-    print('Task Name: ${task.value.name}');
-    print('Status: ${task.value.status}');
-    if (editType.value == EditPageType.add) {
-      taskService.addTask(task.value);
-    } else {
-      taskService.updateTask(task.value);
-    }
+    task.value.name = nameController.text;
+    taskService.save(task.value);
     Get.back();
   }
 
-   void addTask() {
+  void addTask() {
     task.value = taskService.getNewBlankTask();
   }
 

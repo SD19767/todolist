@@ -43,6 +43,7 @@ class TaskService extends GetxController {
   }
 
   void _addTask(Task task) {
+    task.id = _getNewID();
     tasks.add(task);
   }
 
