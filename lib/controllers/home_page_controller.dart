@@ -7,7 +7,6 @@ import 'package:flutter_learn_getx/pages/edit_page.dart';
 
 class HomePageController extends GetxController {
   final TaskService taskService = Get.find<TaskService>();
-  final EditPageController editPageController = Get.find<EditPageController>();
   var addTaskButtonPressed = false.obs;
 
   HomePageController() {
@@ -20,12 +19,7 @@ class HomePageController extends GetxController {
   }
 
   void addTask() {
-    var task = taskService.getNewBlankTask();
-    navigateToEditPage(EditPageType.add, task);
-  }
-
-  void navigateToEditPage(EditPageType editPageType, Task task) {
-    Get.toNamed('/edit');
+    Get.toNamed('/edit', parameters: {'id': ''});
   }
 
   void triggerAddTask() {

@@ -6,8 +6,13 @@ import 'package:flutter_learn_getx/data_models/task_status.dart';
 
 class TaskListItem extends StatelessWidget {
   final Task task;
+  VoidCallback editButtonOnPressed;
+  VoidCallback removeButtonOnPressed;
 
-  TaskListItem({required this.task});
+  TaskListItem(
+      {required this.task,
+      required this.editButtonOnPressed,
+      required this.removeButtonOnPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +29,13 @@ class TaskListItem extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
-                    // Edit action
+                    editButtonOnPressed();
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    // Remove action
+                    removeButtonOnPressed();
                   },
                 ),
               ],

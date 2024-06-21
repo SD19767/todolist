@@ -11,12 +11,18 @@ class EditPageController extends GetxController {
   final editType = EditPageType.add.obs;
   late TextEditingController nameController;
 
+  EditPageController({required TaskId? id}) {
+    task.value = taskService.getTaskBy(id: id);
+    if (id != null) {
+      editType.value = EditPageType.edit;
+    } else {
+      editType.value = EditPageType.add;
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
-    if (editType.value == EditPageType.add) {
-      addTask();
-    }
     nameController = TextEditingController(text: task.value.name);
   }
 
@@ -30,10 +36,6 @@ class EditPageController extends GetxController {
     task.value.name = nameController.text;
     taskService.save(task.value);
     Get.back();
-  }
-
-  void addTask() {
-    task.value = taskService.getNewBlankTask();
   }
 
   void onCancel() {

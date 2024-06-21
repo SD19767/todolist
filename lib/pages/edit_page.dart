@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_getx/controllers/edit_page_controller.dart';
 import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
+import 'package:flutter_learn_getx/data_models/task_model.dart';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/services/task_service.dart';
@@ -21,9 +24,10 @@ extension EditPageTypeExtension on EditPageType {
 }
 
 class EditPage extends StatelessWidget {
-  final EditPageController editPageController = Get.find<EditPageController>();
   @override
   Widget build(BuildContext context) {
+    final id = int.tryParse(Get.parameters['id'] ?? '');
+    final editPageController = Get.put(EditPageController(id: id));
     InputDecoration inputDecoration = const InputDecoration(
       labelText: 'Task name',
       border: OutlineInputBorder(),
@@ -100,8 +104,7 @@ class TaskNamingTextField extends StatelessWidget {
             controller: editPageController.nameController,
             decoration: inputDecoration,
           ),
-        )
-        );
+        ));
   }
 }
 

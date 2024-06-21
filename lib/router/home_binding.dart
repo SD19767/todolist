@@ -8,6 +8,5 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<TaskService>(() => TaskService());
     Get.lazyPut<HomePageController>(() => HomePageController());
-    Get.lazyPut<EditPageController>(() => EditPageController());
   }
 }

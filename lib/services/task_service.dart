@@ -16,13 +16,9 @@ class TaskService extends GetxController {
     });
   }
 
-  Task getNewBlankTask() {
-    return Task(id: _getNewID(), name: '', status: TaskStatus.todo);
-  }
-
-  void removeTaskBy({required TaskId id}) {
-    if (_isTaskExistById(id)) {
-      final removeIndex = _getIndexBy(id: id);
+  void removeTaskBy({required Task task}) {
+    if (_isTaskExistByTask(task)) {
+      final removeIndex = _getIndexByTask(task);
       tasks.removeAt(removeIndex);
     } else {
       throw IndexError.withLength;
@@ -35,6 +31,17 @@ class TaskService extends GetxController {
     } else {
       _addTask(task);
     }
+  }
+
+  Task getTaskBy({required TaskId? id}) {
+    if (id == null) {
+      return _getNewBlankTask();
+    }
+    return _getTaskBy(id: id) ?? _getNewBlankTask();
+  }
+
+  Task _getNewBlankTask() {
+    return Task(id: _getNewID(), name: '', status: TaskStatus.todo);
   }
 
   void _updateTask(Task task) {
@@ -68,7 +75,7 @@ class TaskService extends GetxController {
   }
 
   Task? _getTaskBy({required TaskId id}) {
-    tasks.firstWhereOrNull((task) => task.id == id);
+    return tasks.firstWhereOrNull((task) => task.id == id);
   }
 
   TaskId _getIdBy({required Index index}) {
