@@ -1,29 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_getx/controllers/edit_page_controller.dart';
-import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
-import 'package:flutter_learn_getx/data_models/task_model.dart';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
-import 'package:flutter_learn_getx/services/task_service.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 import 'package:get/get.dart';
 
-enum EditPageType { edit, add }
-
-extension EditPageTypeExtension on EditPageType {
-  String get descriotion {
-    switch (this) {
-      case EditPageType.edit:
-        return 'Edit Task';
-      case EditPageType.add:
-        return 'Add Task';
-    }
-  }
-}
-
 class EditPage extends StatelessWidget {
+  const EditPage({super.key});
   @override
   Widget build(BuildContext context) {
     final editPageController =
@@ -36,7 +19,7 @@ class EditPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(editPageController.editType.value.descriotion),
+        title: Text(editPageController.editType ? 'edit todo' : 'add todo'),
       ),
       body: Padding(
         padding: EdgeInsets.all(SizeConfig.getEdgeInsets()),
