@@ -1,5 +1,5 @@
 final List<LanguageModel> languages = [
-  LanguageModel("English", "en_US"),
+  LanguageModel("English", "en"),
   LanguageModel("Chinese", "zh_TW"),
 ];
 
