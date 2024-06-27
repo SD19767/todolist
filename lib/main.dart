@@ -6,6 +6,7 @@ import 'package:flutter_learn_getx/services/task_service.dart';
 import 'package:get/get.dart';
 import 'controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
+import 'translations/translation.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return GetMaterialApp(
+      translationsKeys: AppTranslation.translationsKeys, 
+      locale: Get.deviceLocale ?? const Locale('en', 'US'), 
+      fallbackLocale: const Locale('en', 'US'), 
       initialRoute: '/',
+      defaultTransition: Transition.fade,
       getPages: [
         GetPage(name: '/', page: () => HomePage(), binding: HomeBinding()),
         GetPage(name: '/edit', page: () => EditPage(), binding: HomeBinding()),
