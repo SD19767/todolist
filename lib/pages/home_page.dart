@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn_getx/services/translation_service.dart';
 import 'package:flutter_learn_getx/translations/langauges.dart';
 import 'package:flutter_learn_getx/widgets/task_list_view.dart';
 import 'package:flutter_learn_getx/data_models/task_model.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text("Translation"),
+          title: Text("translation".tr),
           centerTitle: false,
           actions: [languageChooser()],
         ),
@@ -27,7 +28,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'TODO List Demo App',
+              'todo_list_demo_app'.tr,
               style: TextStyle(
                   fontSize: SizeConfig.getBigTitleSize(),
                   fontWeight: FontWeight.w500),
@@ -36,7 +37,7 @@ class HomePage extends StatelessWidget {
             Container(
               color: Color(0xFFFDF6E3),
               child: Text(
-                'Do it now.',
+                'do_it_now'.tr,
                 style: TextStyle(fontSize: SizeConfig.getTitleSize()),
               ),
             ),
@@ -46,7 +47,7 @@ class HomePage extends StatelessWidget {
               children: [
                 CustomOutlinedButton(
                   onPressed: _controller.triggerAddTask,
-                  text: 'Add Task',
+                  text: 'add_task'.tr,
                 )
               ],
             ),
@@ -63,18 +64,19 @@ class HomePage extends StatelessWidget {
 
   DropdownButton languageChooser() {
     return DropdownButton<String>(
-        isExpanded: false,
-        hint: Text('Please choose a location'), // Not necessary for Option 1
-        value: _controller.selectedLanguage.value,
-        onChanged: (symbol) {
-          _controller.changeLanguage = symbol ?? languages.first.symbol;
-        },
-        items: languages.map((LanguageModel languageModel) {
-          print(languageModel.language);
-          return DropdownMenuItem<String>(
-            value: languageModel.symbol,
-            child: new Text(languageModel.language),
-          );
-        }).toList());
+      hint: Text('please_choose_a_language'.tr),
+      value: Get.locale?.languageCode,
+      onChanged: (String? newValue) {
+        if (newValue != null) {
+          TranslationService.setLocale(Locale(newValue));
+        }
+      },
+      items: TranslationService.supportedLocales.map((Locale locale) {
+        return DropdownMenuItem<String>(
+          value: locale.languageCode,
+          child: Text(locale.toString()),
+        );
+      }).toList(),
+    );
   }
 }
