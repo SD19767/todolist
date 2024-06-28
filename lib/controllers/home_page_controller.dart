@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_learn_getx/services/task_service.dart';
 
@@ -24,11 +23,5 @@ class HomePageController extends GetxController {
 
   void triggerAddTask() {
     addTaskButtonPressed.value = true;
-  }
-
-  set changeLanguage(String lang) {
-    Locale locale = new Locale(lang);
-    Get.updateLocale(locale);
-    selectedLanguage.value = lang;
   }
 }
