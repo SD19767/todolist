@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 enum LanguageCode {
   en,
-  zh_TW,
+  zhTW,
   ja,
 }
 
@@ -15,7 +15,7 @@ extension LanguageCodeExtension on LanguageCode {
     switch (this) {
       case LanguageCode.en:
         return 'en';
-      case LanguageCode.zh_TW:
+      case LanguageCode.zhTW:
         return 'zh-TW';
       case LanguageCode.ja:
         return 'ja';
@@ -26,7 +26,7 @@ extension LanguageCodeExtension on LanguageCode {
     switch (this) {
       case LanguageCode.en:
         return const Locale('en', 'US');
-      case LanguageCode.zh_TW:
+      case LanguageCode.zhTW:
         return const Locale('zh', 'TW');
       case LanguageCode.ja:
         return const Locale('ja', 'JP');
@@ -42,14 +42,14 @@ class TranslationService extends Translations {
 
   static Future<void> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    loadLanguages();
+    await loadLanguages();
     String? localeString = prefs.getString(prefsKey);
     if (localeString != null) {
       currentLanguageCode = getLanguageCodeBy(localeString);
     } else {
       try {
         currentLanguageCode = getLanguageCodeByLocate(Get.deviceLocale);
-      } catch(e) {
+      } catch (e) {
         currentLanguageCode = fallbackLocale;
       }
       await prefs.setString(prefsKey, currentLanguageCode.key);
@@ -57,12 +57,13 @@ class TranslationService extends Translations {
     Get.updateLocale(currentLanguageCode.locale);
   }
 
-  static loadLanguages() {
-    LanguageCode.values.forEach((languageCode) async {
-      _translations.assign(languageCode.key,
-          await _loadTranslations('assets/translations/$languageCode.json'));
-    });
+  static Future<void> loadLanguages() async {
+  for (var languageCode in LanguageCode.values) {
+    var key = languageCode.key;
+    _translations.assign(key,
+        await _loadTranslations('assets/translations/$key.json'));
   }
+}
 
   static Future<void> setLocale(LanguageCode languageCode) async {
     currentLanguageCode = languageCode;
@@ -84,7 +85,7 @@ class TranslationService extends Translations {
       case 'en':
         return LanguageCode.en;
       case 'zh-TW':
-        return LanguageCode.zh_TW;
+        return LanguageCode.zhTW;
       case 'ja':
         return LanguageCode.ja;
       default:
@@ -92,21 +93,21 @@ class TranslationService extends Translations {
     }
   }
 
-   static LanguageCode getLanguageCodeByLocate(Locale? locale) {
+  static LanguageCode getLanguageCodeByLocate(Locale? locale) {
     switch (locale?.languageCode) {
       case 'en':
         return LanguageCode.en;
       case 'zh':
         if (locale?.countryCode == 'TW') {
-          return LanguageCode.zh_TW;
+          return LanguageCode.zhTW;
         } else {
           //TODO: other CN
-          return LanguageCode.zh_TW;
+          return LanguageCode.zhTW;
         }
       case 'ja':
         return LanguageCode.ja;
       default:
         throw ArgumentError('Invalid language code');
-      }
+    }
   }
 }

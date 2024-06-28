@@ -4,7 +4,6 @@ import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 import 'package:get/get.dart';
-import 'package:flutter_learn_getx/services/translation_service.dart';
 
 
 class EditPage extends StatelessWidget {
@@ -15,8 +14,8 @@ class EditPage extends StatelessWidget {
         Get.put(EditPageController(id: Get.parameters['id']));
     InputDecoration inputDecoration = InputDecoration(
       labelText: 'task_name'.tr,
-      border: OutlineInputBorder(),
-      contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+      border: const OutlineInputBorder(),
+      contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
     );
 
     return Scaffold(
@@ -62,7 +61,7 @@ class IdText extends StatelessWidget {
     return Row(
       children: [
         const Text('#'),
-        Obx(() => Text('${editPageController.task.value.id}')),
+        Obx(() => Text(editPageController.task.value.id)),
         const Spacer(),
       ],
     );

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 import 'package:flutter_learn_getx/data_models/task_model.dart';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 
 class TaskListItem extends StatelessWidget {
   final Task task;
-  VoidCallback editButtonOnPressed;
-  VoidCallback removeButtonOnPressed;
+  final VoidCallback editButtonOnPressed;
+  final VoidCallback removeButtonOnPressed;
 
-  TaskListItem(
-      {required this.task,
+  const TaskListItem(
+      {super.key, required this.task,
       required this.editButtonOnPressed,
       required this.removeButtonOnPressed});
 
@@ -33,7 +32,7 @@ class TaskListItem extends StatelessWidget {
                   },
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: task.status != TaskStatus.complete
                       ? () {
                           removeButtonOnPressed();

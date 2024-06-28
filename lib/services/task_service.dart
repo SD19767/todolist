@@ -72,23 +72,8 @@ class TaskService extends GetxController {
     return _getTaskBy(id: task.id) != null;
   }
 
-  bool _isTaskExistById(TaskId id) {
-    return _getTaskBy(id: id) != null;
-  }
-
   Task? _getTaskBy({required TaskId id}) {
     return tasks.firstWhereOrNull((task) => task.id == id);
-  }
-
-  TaskId _getIdBy({required Index index}) {
-    if (index < 0 || index >= tasks.length) {
-      throw IndexError.withLength;
-    }
-    return tasks[index].id;
-  }
-
-  Index _getIndexBy({required TaskId id}) {
-    return tasks.indexWhere((task) => task.id == id);
   }
 
   Future<void> _loadTasksFromLocal() async {
