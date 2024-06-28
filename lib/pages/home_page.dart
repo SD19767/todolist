@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_getx/services/translation_service.dart';
-import 'package:flutter_learn_getx/translations/langauges.dart';
 import 'package:flutter_learn_getx/widgets/task_list_view.dart';
 import 'package:flutter_learn_getx/data_models/task_model.dart';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
@@ -10,18 +9,16 @@ import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 
 class HomePage extends StatelessWidget {
-
   final _controller = Get.find<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-          title: Text("translation".tr),
-          centerTitle: false,
-          actions: [languageChooser()],
-        ),
+        title: Text("translation".tr),
+        centerTitle: false,
+        actions: [languageChooser()],
+      ),
       body: Padding(
         padding: EdgeInsets.all(SizeConfig.getEdgeInsets()),
         child: Column(
@@ -61,22 +58,19 @@ class HomePage extends StatelessWidget {
     );
   }
 
-
   DropdownButton languageChooser() {
-    return DropdownButton<String>(
+    return DropdownButton<LanguageCode>(
       hint: Text('please_choose_a_language'.tr),
-      value: Get.locale?.languageCode,
-      onChanged: (String? newValue) {
-        if (newValue != null) {
-          TranslationService.setLocale(Locale(newValue));
-        }
-      },
-      items: TranslationService.supportedLocales.map((Locale locale) {
-        return DropdownMenuItem<String>(
-          value: locale.languageCode,
-          child: Text(locale.toString()),
-        );
-      }).toList(),
+      value: TranslationService.currentLanguageCode,
+      onChanged: (languageCode) => languageCode != null
+          ? TranslationService.setLocale(languageCode)
+          : null,
+      items: LanguageCode.values
+          .map((LanguageCode languageCode) => DropdownMenuItem<LanguageCode>(
+                value: languageCode,
+                child: Text(languageCode.key),
+              ))
+          .toList(),
     );
   }
 }

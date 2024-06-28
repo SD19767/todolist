@@ -5,9 +5,7 @@ import 'package:flutter_learn_getx/router/home_binding.dart';
 import 'package:flutter_learn_getx/services/task_service.dart';
 import 'package:flutter_learn_getx/services/translation_service.dart';
 import 'package:get/get.dart';
-import 'controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
-import 'translations/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +16,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return GetMaterialApp(
       translations: TranslationService(),
-      locale: TranslationService.locale,
-      fallbackLocale: TranslationService.fallbackLocale,
+      locale: TranslationService.currentLanguageCode.locale,
+      fallbackLocale: TranslationService.fallbackLocale.locale,
       initialRoute: '/',
       defaultTransition: Transition.fade,
       getPages: [

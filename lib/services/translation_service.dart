@@ -4,57 +4,71 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TranslationService extends Translations {
-  static Locale? get locale => _locale;
-  static Locale? _locale;
-  static const fallbackLocale = Locale('en', 'US');
-  static final List<Locale> supportedLocales = [
-    Locale('en', 'US'),
-    Locale('zh', 'TW'),
-    Locale('ja', 'JP'),
-  ];
+enum LanguageCode {
+  en,
+  zh_TW,
+  ja,
+}
 
+extension LanguageCodeExtension on LanguageCode {
+  String get key {
+    switch (this) {
+      case LanguageCode.en:
+        return 'en';
+      case LanguageCode.zh_TW:
+        return 'zh-TW';
+      case LanguageCode.ja:
+        return 'ja';
+    }
+  }
+
+  Locale get locale {
+    switch (this) {
+      case LanguageCode.en:
+        return const Locale('en', 'US');
+      case LanguageCode.zh_TW:
+        return const Locale('zh', 'TW');
+      case LanguageCode.ja:
+        return const Locale('ja', 'JP');
+    }
+  }
+}
+
+class TranslationService extends Translations {
+  static LanguageCode fallbackLocale = LanguageCode.en;
+  static LanguageCode currentLanguageCode = LanguageCode.en;
+  static var prefsKey = 'locale';
   static Map<String, Map<String, String>> _translations = {};
 
   static Future<void> init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? localeString = prefs.getString('locale');
+    loadLanguages();
+    String? localeString = prefs.getString(prefsKey);
     if (localeString != null) {
-      _locale = _getLocaleFromString(localeString);
+      currentLanguageCode = getLanguageCodeBy(localeString);
     } else {
-      _locale = Get.deviceLocale;
-      if (!_isLocaleSupported(_locale)) {
-        _locale = fallbackLocale;
+      try {
+        currentLanguageCode = getLanguageCodeByLocate(Get.deviceLocale);
+      } catch(e) {
+        currentLanguageCode = fallbackLocale;
       }
-      await prefs.setString('locale', _locale.toString());
+      await prefs.setString(prefsKey, currentLanguageCode.key);
     }
-
-    // 加載翻譯文件
-    _translations = {
-      'en_US': await _loadTranslations('assets/translations/en_US.json'),
-      'zh_TW': await _loadTranslations('assets/translations/zh_TW.json'),
-      'ja_JP': await _loadTranslations('assets/translations/ja_JP.json'),
-    };
-
-    Get.updateLocale(_locale!);
+    Get.updateLocale(currentLanguageCode.locale);
   }
 
-  static bool _isLocaleSupported(Locale? locale) {
-    return supportedLocales.contains(locale);
+  static loadLanguages() {
+    LanguageCode.values.forEach((languageCode) async {
+      _translations.assign(languageCode.key,
+          await _loadTranslations('assets/translations/$languageCode.json'));
+    });
   }
 
-  static Locale _getLocaleFromString(String localeString) {
-    final parts = localeString.split('_');
-    return Locale(parts[0], parts[1]);
-  }
-
-  static Future<void> setLocale(Locale locale) async {
-    if (_isLocaleSupported(locale)) {
-      _locale = locale;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('locale', locale.toString());
-      Get.updateLocale(locale);
-    }
+  static Future<void> setLocale(LanguageCode languageCode) async {
+    currentLanguageCode = languageCode;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(prefsKey, languageCode.key);
+    Get.updateLocale(languageCode.locale);
   }
 
   static Future<Map<String, String>> _loadTranslations(String path) async {
@@ -64,4 +78,35 @@ class TranslationService extends Translations {
 
   @override
   Map<String, Map<String, String>> get keys => _translations;
+
+  static LanguageCode getLanguageCodeBy(String key) {
+    switch (key) {
+      case 'en':
+        return LanguageCode.en;
+      case 'zh-TW':
+        return LanguageCode.zh_TW;
+      case 'ja':
+        return LanguageCode.ja;
+      default:
+        return LanguageCode.en;
+    }
+  }
+
+   static LanguageCode getLanguageCodeByLocate(Locale? locale) {
+    switch (locale?.languageCode) {
+      case 'en':
+        return LanguageCode.en;
+      case 'zh':
+        if (locale?.countryCode == 'TW') {
+          return LanguageCode.zh_TW;
+        } else {
+          //TODO: other CN
+          return LanguageCode.zh_TW;
+        }
+      case 'ja':
+        return LanguageCode.ja;
+      default:
+        throw ArgumentError('Invalid language code');
+      }
+  }
 }
