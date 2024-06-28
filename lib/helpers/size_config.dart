@@ -22,7 +22,7 @@ class SizeConfig {
     heightMultiplier = blockSizeVertical;
   }
 
-  static double getBigTitleSize() => screenWidth * 0.08;
+  static double getBigTitleSize() => screenWidth * 0.07;
   static double getTitleSize() => screenWidth * 0.04;
   static double getEdgeInsets() => screenWidth * 0.1;
   static double textFieldWidth() => screenWidth * 0.5;

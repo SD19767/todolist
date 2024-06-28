@@ -4,6 +4,8 @@ import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 import 'package:get/get.dart';
+import 'package:flutter_learn_getx/services/translation_service.dart';
+
 
 class EditPage extends StatelessWidget {
   const EditPage({super.key});
@@ -11,15 +13,15 @@ class EditPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final editPageController =
         Get.put(EditPageController(id: Get.parameters['id']));
-    InputDecoration inputDecoration = const InputDecoration(
-      labelText: 'Task name',
+    InputDecoration inputDecoration = InputDecoration(
+      labelText: 'task_name'.tr,
       border: OutlineInputBorder(),
       contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(editPageController.editType ? 'edit todo' : 'add todo'),
+        title: Text(editPageController.editType ? 'edit_todo'.tr : 'add_todo'.tr),
       ),
       body: Padding(
         padding: EdgeInsets.all(SizeConfig.getEdgeInsets()),
@@ -109,14 +111,14 @@ class ButtonGroup extends StatelessWidget {
           onPressed: () {
             editPageController.onCancel();
           },
-          text: 'cancel',
+          text: 'cancel'.tr,
         ),
         const Spacer(),
         CustomOutlinedButton(
           onPressed: () {
             editPageController.onSave();
           },
-          text: 'save',
+          text: 'save'.tr,
         ),
       ],
     );
@@ -140,7 +142,7 @@ class AddTaskStatusBox extends StatelessWidget {
       height: SizeConfig.getVerticalSpacer(),
       child: Obx(() {
         return InputDecorator(
-          decoration: inputDecoration.copyWith(labelText: 'Status'),
+          decoration: inputDecoration.copyWith(labelText: 'status'.tr),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<TaskStatus>(
               isExpanded: true,

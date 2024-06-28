@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_learn_getx/services/translation_service.dart';
 import 'package:flutter_learn_getx/widgets/task_list_view.dart';
 import 'package:flutter_learn_getx/data_models/task_model.dart';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
@@ -8,18 +9,23 @@ import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 
 class HomePage extends StatelessWidget {
+  final _controller = Get.find<HomePageController>();
+
   @override
   Widget build(BuildContext context) {
-    final homePageController = Get.find<HomePageController>();
-
     return Scaffold(
+      appBar: AppBar(
+        title: Text("translation".tr),
+        centerTitle: false,
+        actions: [languageChooser()],
+      ),
       body: Padding(
         padding: EdgeInsets.all(SizeConfig.getEdgeInsets()),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'TODO List Demo App',
+              'todo_list_demo_app'.tr,
               style: TextStyle(
                   fontSize: SizeConfig.getBigTitleSize(),
                   fontWeight: FontWeight.w500),
@@ -28,7 +34,7 @@ class HomePage extends StatelessWidget {
             Container(
               color: Color(0xFFFDF6E3),
               child: Text(
-                'Do it now.',
+                'do_it_now'.tr,
                 style: TextStyle(fontSize: SizeConfig.getTitleSize()),
               ),
             ),
@@ -37,18 +43,34 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomOutlinedButton(
-                  onPressed: homePageController.triggerAddTask,
-                  text: 'Add Task',
+                  onPressed: _controller.triggerAddTask,
+                  text: 'add_task'.tr,
                 )
               ],
             ),
             SizedBox(height: 16),
             Expanded(
-              child: TaskListView(tasks: homePageController.taskService.tasks),
+              child: TaskListView(tasks: _controller.taskService.tasks),
             )
           ],
         ),
       ),
+    );
+  }
+
+  DropdownButton languageChooser() {
+    return DropdownButton<LanguageCode>(
+      hint: Text('please_choose_a_language'.tr),
+      value: TranslationService.currentLanguageCode,
+      onChanged: (languageCode) => languageCode != null
+          ? TranslationService.setLocale(languageCode)
+          : null,
+      items: LanguageCode.values
+          .map((LanguageCode languageCode) => DropdownMenuItem<LanguageCode>(
+                value: languageCode,
+                child: Text(languageCode.key),
+              ))
+          .toList(),
     );
   }
 }

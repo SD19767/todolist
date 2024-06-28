@@ -27,7 +27,7 @@ class TaskListItem extends StatelessWidget {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit),
+                  icon: const Icon(Icons.edit),
                   onPressed: () {
                     editButtonOnPressed();
                   },
