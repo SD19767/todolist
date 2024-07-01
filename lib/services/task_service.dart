@@ -1,25 +1,43 @@
-import 'dart:convert';
 import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:flutter_learn_getx/data_models/task_model.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../provider/task_provider.dart';
 
 class TaskService extends GetxController {
   final tasks = <Task>[].obs;
+  final TaskProvider provider = TaskProvider();
 
   @override
   void onInit() {
     super.onInit();
-    _loadTasksFromLocal();
+    _initDB();
+  }
+
+  Future<void> _initDB() async {
+    await provider.initDatabase();
+    await _loadTasksFromDB();
     tasks.listen((_) {
-      _saveTasksToLocal();
+      _saveTasksToDB();
     });
+  }
+
+  Future<void> _loadTasksFromDB() async {
+    final loadedTasks = await provider.getAllTasks();
+    tasks.assignAll(loadedTasks);
+  }
+
+  Future<void> _saveTasksToDB() async {
+    await provider.deleteAllTasks();
+    for (var task in tasks) {
+      await provider.insertTask(task);
+    }
   }
 
   void removeTaskBy({required Task task}) {
     if (_isTaskExistByTask(task)) {
       final removeIndex = _getIndexByTask(task);
       tasks.removeAt(removeIndex);
+      provider.deleteTask(task.id);
     } else {
       throw IndexError.withLength;
     }
@@ -47,11 +65,13 @@ class TaskService extends GetxController {
   void _updateTask(Task task) {
     final index = _getIndexByTask(task);
     tasks[index] = task;
+    provider.updateTask(task);
   }
 
   void _addTask(Task task) {
     task.id = _getNewID();
     tasks.add(task);
+    provider.insertTask(task);
   }
 
   TaskId _getNewID() {
@@ -74,23 +94,5 @@ class TaskService extends GetxController {
 
   Task? _getTaskBy({required TaskId id}) {
     return tasks.firstWhereOrNull((task) => task.id == id);
-  }
-
-  Future<void> _loadTasksFromLocal() async {
-    final prefs = await SharedPreferences.getInstance();
-    final tasksString = prefs.getString('tasks');
-    if (tasksString != null) {
-      final List<dynamic> tasksJson = json.decode(tasksString);
-      final loadedTasks =
-          tasksJson.map((taskJson) => Task.fromJson(taskJson)).toList();
-      tasks.assignAll(loadedTasks);
-    }
-  }
-
-  Future<void> _saveTasksToLocal() async {
-    final prefs = await SharedPreferences.getInstance();
-    final tasksString =
-        json.encode(tasks.map((task) => task.toJson()).toList());
-    await prefs.setString('tasks', tasksString);
   }
 }
