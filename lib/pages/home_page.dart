@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_learn_getx/services/translation_service.dart';
 import 'package:flutter_learn_getx/widgets/task_list_view.dart';
-import 'package:flutter_learn_getx/data_models/task_model.dart';
-import 'package:flutter_learn_getx/data_models/task_status.dart';
 import 'package:get/get.dart';
 import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
@@ -10,6 +8,8 @@ import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 
 class HomePage extends StatelessWidget {
   final _controller = Get.find<HomePageController>();
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,15 @@ class HomePage extends StatelessWidget {
                   fontSize: SizeConfig.getBigTitleSize(),
                   fontWeight: FontWeight.w500),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Container(
-              color: Color(0xFFFDF6E3),
+              color: const Color(0xFFFDF6E3),
               child: Text(
                 'do_it_now'.tr,
                 style: TextStyle(fontSize: SizeConfig.getTitleSize()),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
               child: TaskListView(tasks: _controller.taskService.tasks),
             )

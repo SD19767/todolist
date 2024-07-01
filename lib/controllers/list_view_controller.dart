@@ -12,32 +12,26 @@ class ListViewController extends GetxController {
   }
 
   void removeButtonOnPressed(BuildContext context, {required Task task}) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        final id = task.id;
-        final name = task.name;
-        return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text(
-              'Are you sure you want to delete this task? id:$id Name:$name'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Dismiss the dialog
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                taskService.removeTaskBy(task: task);
-                Navigator.of(context).pop(); // Dismiss the dialog
-              },
-              child: Text('Delete'),
-            ),
-          ],
-        );
-      },
+    Get.dialog(
+      AlertDialog(
+        title: Text('confirm_delete'.tr),
+        content: Text('delete_task_prompt'.trParams({'id': task.id, 'name': task.name})),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Get.back(); // Dismiss the dialog
+            },
+            child: Text('cancel'.tr),
+          ),
+          TextButton(
+            onPressed: () {
+              taskService.removeTaskBy(task: task);
+              Get.back(); // Dismiss the dialog
+            },
+            child: Text('delete'.tr),
+          ),
+        ],
+      )
     );
   }
 }

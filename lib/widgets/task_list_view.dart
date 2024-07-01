@@ -8,7 +8,7 @@ class TaskListView extends StatelessWidget {
   final List<Task> tasks;
   final ListViewController listViewController = Get.put(ListViewController());
 
-  TaskListView({required this.tasks});
+  TaskListView({super.key, required this.tasks});
 
   @override
   Widget build(BuildContext context) {
