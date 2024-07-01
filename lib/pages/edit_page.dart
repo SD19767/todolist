@@ -6,7 +6,7 @@ import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 import 'package:get/get.dart';
 
 
-class EditPage extends StatelessWidget {
+class EditPage extends GetView<EditPageController> {
   const EditPage({super.key});
   @override
   Widget build(BuildContext context) {

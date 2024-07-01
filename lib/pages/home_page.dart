@@ -6,10 +6,9 @@ import 'package:flutter_learn_getx/controllers/home_page_controller.dart';
 import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 
-class HomePage extends StatelessWidget {
-  final _controller = Get.find<HomePageController>();
+class HomePage extends GetView<HomePageController> {
 
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +42,14 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CustomOutlinedButton(
-                  onPressed: _controller.triggerAddTask,
+                  onPressed: controller.triggerAddTask,
                   text: 'add_task'.tr,
                 )
               ],
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: TaskListView(tasks: _controller.taskService.tasks),
+              child: TaskListView(tasks: controller.taskService.tasks),
             )
           ],
         ),
