@@ -8,10 +8,9 @@ import 'package:get/get.dart';
 
 class EditPage extends GetView<EditPageController> {
   const EditPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final editPageController =
-        Get.put(EditPageController(id: Get.parameters['id']));
     InputDecoration inputDecoration = InputDecoration(
       labelText: 'task_name'.tr,
       border: const OutlineInputBorder(),
@@ -20,7 +19,7 @@ class EditPage extends GetView<EditPageController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(editPageController.editType ? 'edit_todo'.tr : 'add_todo'.tr),
+        title: Text(controller.editType ? 'edit_todo'.tr : 'add_todo'.tr),
       ),
       body: Padding(
         padding: EdgeInsets.all(SizeConfig.getEdgeInsets()),
@@ -29,17 +28,17 @@ class EditPage extends GetView<EditPageController> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IdText(editPageController: editPageController),
+              IdText(editPageController: controller),
               SizedBox(height: SizeConfig.getVerticalSpacer()),
               TaskNamingTextField(
-                  editPageController: editPageController,
+                  editPageController: controller,
                   inputDecoration: inputDecoration),
               SizedBox(height: SizeConfig.getVerticalSpacer()),
               AddTaskStatusBox(
                   inputDecoration: inputDecoration,
-                  editPageController: editPageController),
+                  editPageController: controller),
               SizedBox(height: SizeConfig.getVerticalSpacer()),
-              ButtonGroup(editPageController: editPageController),
+              ButtonGroup(editPageController: controller),
             ],
           ),
         ),

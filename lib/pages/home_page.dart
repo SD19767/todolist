@@ -7,8 +7,8 @@ import 'package:flutter_learn_getx/helpers/size_config.dart';
 import 'package:flutter_learn_getx/widgets/custom_outlined_button.dart';
 
 class HomePage extends GetView<HomePageController> {
-
-  const HomePage({super.key});
+  String? text = '123';
+  HomePage({super.key,this.text});
 
   @override
   Widget build(BuildContext context) {
